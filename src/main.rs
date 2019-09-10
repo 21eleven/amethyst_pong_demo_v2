@@ -15,12 +15,19 @@ use self::pong::Pong;
 use amethyst::core::transform::TransformBundle;
 
 fn main() -> amethyst::Result<()> {
+    use amethyst::input::{InputBundle, StringBindings};
+
     amethyst::start_logger(Default::default());
     let app_root = application_root_dir()?;
+    let binding_path = app_root.join("config").join("bindings.ron");
     let display_config_path = app_root.join("config").join("display.ron");
+
+    let input_bundle = InputBundle::<StringBindings>::new()
+        .with_bindings_from_file(binding_path)?;
 
     let game_data = GameDataBuilder::default()
         .with_bundle(TransformBundle::new())?
+        .with_bundle(input_bundle)?
         .with_bundle(
             RenderingBundle::<DefaultBackend>::new()
                 .with_plugin(
