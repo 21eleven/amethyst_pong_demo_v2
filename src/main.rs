@@ -30,6 +30,7 @@ fn main() -> amethyst::Result<()> {
         .with_bundle(TransformBundle::new())?
         .with_bundle(input_bundle)?
         .with(systems::PaddleSystem, "paddle_system", &["input_system"])
+        .with(systems::MoveBallsSystem, "ball_system", &[])
         .with_bundle(
             RenderingBundle::<DefaultBackend>::new()
                 .with_plugin(
