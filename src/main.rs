@@ -9,6 +9,7 @@ use amethyst::{
 };
 
 mod pong;
+mod systems;
 
 use self::pong::Pong;
 
@@ -28,6 +29,7 @@ fn main() -> amethyst::Result<()> {
     let game_data = GameDataBuilder::default()
         .with_bundle(TransformBundle::new())?
         .with_bundle(input_bundle)?
+        .with(systems::PaddleSystem, "paddle_system", &["input_system"])
         .with_bundle(
             RenderingBundle::<DefaultBackend>::new()
                 .with_plugin(
