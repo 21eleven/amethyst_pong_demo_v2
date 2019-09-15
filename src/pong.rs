@@ -63,9 +63,6 @@ impl SimpleState for Pong {
         let world = data.world;
         self.ball_spawn_timer.replace(1.0);
         self.sprite_sheet_handle.replace(load_sprite_sheet(world));
-        //world.register::<Paddle>(); //this step may not be needed
-        //world.register::<Ball>();
-        //initialise_ball(world, sprite_sheet_handle.clone());
         initialise_paddles(world, self.sprite_sheet_handle.clone().unwrap());
         initialise_camera(world);
     }
