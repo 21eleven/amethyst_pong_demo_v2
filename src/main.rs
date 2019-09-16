@@ -6,6 +6,7 @@ use amethyst::{
         RenderingBundle,
     },
     utils::application_root_dir,
+    ui::{RenderUi, UiBundle},
 };
 
 mod pong;
@@ -36,15 +37,18 @@ fn main() -> amethyst::Result<()> {
             "collision_system",
             &["paddle_system", "ball_system"],
         )
+        .with(systems::ScoringSystem, "scoring_system", &["ball_system"])
         .with_bundle(
             RenderingBundle::<DefaultBackend>::new()
                 .with_plugin(
                     RenderToWindow::from_config_path(display_config_path)
                         .with_clear([0.0, 0.0, 0.0, 1.0]),
                 )
-                .with_plugin(RenderFlat2D::default()),
-
-        ).expect("exploded");
+                .with_plugin(RenderFlat2D::default())
+                .with_plugin(RenderUi::default()),
+        )?
+        .with_bundle(UiBundle::<StringBindings>::new())
+        .expect("exploded");
 
     let assets_dir = app_root.join("assets");
     let mut game = Application::new(assets_dir, Pong::default(), game_data)?;
